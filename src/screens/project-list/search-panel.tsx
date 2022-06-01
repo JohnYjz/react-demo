@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { User, SearchParam } from './index';
 
 export const SearchPanel = ({

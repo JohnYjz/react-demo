@@ -1,7 +1,6 @@
 import { Project, User } from './index';
 
 export const List = ({ list, users }: { list: Project[]; users: User[] }) => {
-  console.log(list);
   return (
     <table>
       <thead>

@@ -1,5 +1,5 @@
 import qs from 'qs';
-import * as auth from 'auth-provider'; // TODO 这里为什么是Provider
+import * as auth from 'auth-provider'; // 纯粹的登录流程、token管理工具方法
 import { useAuth } from 'context/use-context';
 
 interface Config extends RequestInit {

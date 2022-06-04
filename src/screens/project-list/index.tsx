@@ -1,9 +1,11 @@
 import { SearchPanel } from './search-panel';
 import { List } from './list';
-import { useEffect, useState } from 'react';
-import { cleanObject, useDebounce, useMount } from 'utils';
-import { useHttp } from 'utils/http';
+import { useState } from 'react';
+import { useDebounce } from 'utils';
 import styled from '@emotion/styled';
+import { Typography } from 'antd';
+import { useProjects } from 'utils/project';
+import { useUsers } from 'utils/user';
 
 export interface User {
   id: number;
@@ -17,7 +19,7 @@ export interface User {
 export interface Project {
   id: number;
   name: string;
-  personId: number;
+  personId: number | string;
   pin: boolean;
   organization: string;
   created: number;
@@ -29,31 +31,21 @@ export interface SearchParam {
 }
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
+  const [param, setParam] = useState<Partial<Project>>({
     name: '',
     personId: '',
   });
+
   const debounceParam = useDebounce(param, 500);
-  const [list, setList] = useState<Project[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  const { isLoading, error, data: list } = useProjects(debounceParam);
 
-  const client = useHttp();
-
-  useEffect(() => {
-    client('projects', {
-      data: cleanObject(debounceParam),
-    }).then(setList);
-    // eslint-disable-next-line
-  }, [debounceParam]);
-
-  useMount(() => {
-    client('users').then(setUsers);
-  });
+  const { data: users } = useUsers();
 
   return (
     <Container>
-      <SearchPanel param={param} setParam={setParam} users={users}></SearchPanel>
-      <List list={list} users={users}></List>
+      <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
+      {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
+      <List loading={isLoading} dataSource={list || []} users={users || []}></List>
     </Container>
   );
 };

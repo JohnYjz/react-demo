@@ -1,13 +1,13 @@
 import { Form, Input, Select } from 'antd';
-import { User, SearchParam } from './index';
+import { User, SearchParam, Project } from './index';
 
 export const SearchPanel = ({
   param,
   setParam,
   users,
 }: {
-  param: SearchParam;
-  setParam: React.Dispatch<React.SetStateAction<SearchParam>>;
+  param: Partial<Project>;
+  setParam: React.Dispatch<React.SetStateAction<Partial<Project>>>;
   users: User[];
 }) => {
   return (

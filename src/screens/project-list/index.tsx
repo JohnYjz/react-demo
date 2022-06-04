@@ -29,7 +29,7 @@ export interface SearchParam {
 }
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState<SearchParam>({
+  const [param, setParam] = useState({
     name: '',
     personId: '',
   });
@@ -43,6 +43,7 @@ export const ProjectListScreen = () => {
     client('projects', {
       data: cleanObject(debounceParam),
     }).then(setList);
+    // eslint-disable-next-line
   }, [debounceParam]);
 
   useMount(() => {

@@ -29,6 +29,7 @@ export const List = ({ list, users }: { list: Project[]; users: User[] }) => {
           },
         },
       ]}
+      rowKey="id"
       dataSource={list}
     ></Table>
   );

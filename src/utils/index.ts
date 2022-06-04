@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 
 export const isFalsy = (val: unknown) => (val === 0 ? false : !val);
 
-export const cleanObject = (obj: object) => {
+export const isVoid = (val: unknown) => val === undefined || val === null || val === '';
+
+export const cleanObject = (obj: { [key: string]: unknown }) => {
   const result = { ...obj };
   Object.keys(obj).forEach((key) => {
-    // @ts-ignore
     const val = obj[key];
-    if (isFalsy(val)) {
-      // @ts-ignore
+    if (isVoid(val)) {
       delete result[key];
     }
   });
@@ -18,6 +18,8 @@ export const cleanObject = (obj: object) => {
 export const useMount = (cb: () => void) => {
   useEffect(() => {
     cb();
+    // TODO 加上依赖cb会造成无限循环，这和useCallback和useMemo有关
+    // eslint-disable-next-line
   }, []);
 };
 

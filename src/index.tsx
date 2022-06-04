@@ -3,16 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { loadDevTools } from 'jira-dev-tool';
+import { loadServer, DevTools } from 'jira-dev-tool';
 import 'antd/dist/antd.less'; // 放在 jira-dev-tool 后面是为了覆盖该包的内置antd，引入less而不是css是为了自定义样式主题
 import { AppProviders } from 'context';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-loadDevTools(() =>
+loadServer(() =>
   root.render(
     <React.StrictMode>
       <AppProviders>
+        <DevTools />
         <App />
       </AppProviders>
     </React.StrictMode>

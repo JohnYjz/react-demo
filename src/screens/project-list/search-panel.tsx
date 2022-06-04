@@ -1,4 +1,4 @@
-import { Input, Select } from 'antd';
+import { Form, Input, Select } from 'antd';
 import { User, SearchParam } from './index';
 
 export const SearchPanel = ({
@@ -11,9 +11,10 @@ export const SearchPanel = ({
   users: User[];
 }) => {
   return (
-    <form>
-      <div>
+    <Form layout="inline" style={{ marginBottom: '2rem' }}>
+      <Form.Item>
         <Input
+          placeholder="项目名"
           type="text"
           value={param.name}
           onChange={(evt) =>
@@ -23,6 +24,8 @@ export const SearchPanel = ({
             })
           }
         />
+      </Form.Item>
+      <Form.Item>
         <Select
           value={param.personId}
           onChange={(value) =>
@@ -37,7 +40,7 @@ export const SearchPanel = ({
             <Select.Option value={user.id}>{user.name}</Select.Option>
           ))}
         </Select>
-      </div>
-    </form>
+      </Form.Item>
+    </Form>
   );
 };

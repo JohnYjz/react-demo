@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Button, Dropdown, Menu } from 'antd';
 import { Row } from 'components/lib';
-import { useAuth } from 'context/use-context';
+import { useAuth } from 'context/auth-context';
 import { ProjectListScreen } from 'screens/project-list';
 import { ReactComponent as Logo } from 'assets/software-logo.svg'; // TODO svg导入
 

@@ -1,4 +1,4 @@
-import { useAuth } from 'context/use-context';
+import { useAuth } from 'context/auth-context';
 import { Form, Input } from 'antd';
 import { LongButton } from 'unauthenticated-app';
 import { useAsync } from 'utils/use-async';

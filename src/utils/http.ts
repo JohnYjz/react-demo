@@ -1,6 +1,6 @@
 import qs from 'qs';
 import * as auth from 'auth-provider'; // 纯粹的登录流程、token管理工具方法
-import { useAuth } from 'context/use-context';
+import { useAuth } from 'context/auth-context';
 
 interface Config extends RequestInit {
   data?: object;

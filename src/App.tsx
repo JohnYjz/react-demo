@@ -1,5 +1,5 @@
 import { AuthenticatedApp } from 'authenticated-app';
-import { useAuth } from 'context/use-context';
+import { useAuth } from 'context/auth-context';
 import { UnauthenticatedApp } from 'unauthenticated-app';
 import './App.css';
 

@@ -1,5 +1,5 @@
 import { Form, Input, Select } from 'antd';
-import { User, SearchParam, Project } from './index';
+import { User, Project } from './index';
 
 export const SearchPanel = ({
   param,

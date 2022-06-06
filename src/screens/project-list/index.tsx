@@ -1,11 +1,11 @@
 import { SearchPanel } from './search-panel';
 import { List } from './list';
-import { useState } from 'react';
 import { useDebounce, useDocumentTitile } from 'utils';
 import styled from '@emotion/styled';
 import { Typography } from 'antd';
 import { useProjects } from 'utils/project';
 import { useUsers } from 'utils/user';
+import { useUrlQueryParam } from 'utils/url';
 
 export interface User {
   id: number;
@@ -31,11 +31,7 @@ export interface SearchParam {
 }
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState<Partial<Project>>({
-    name: '',
-    personId: '',
-  });
-
+  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
   const debounceParam = useDebounce(param, 500);
   const { isLoading, error, data: list } = useProjects(debounceParam);
 
@@ -51,6 +47,8 @@ export const ProjectListScreen = () => {
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;

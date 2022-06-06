@@ -7,7 +7,7 @@ export const SearchPanel = ({
   users,
 }: {
   param: Partial<Project>;
-  setParam: React.Dispatch<React.SetStateAction<Partial<Project>>>;
+  setParam: (params: Partial<Project>) => void;
   users: User[];
 }) => {
   return (
@@ -37,7 +37,7 @@ export const SearchPanel = ({
         >
           <Select.Option value="">负责人</Select.Option>
           {users.map((user) => (
-            <Select.Option key={user.id} value={user.id}>
+            <Select.Option key={user.id} value={`${user.id}`}>
               {user.name}
             </Select.Option>
           ))}

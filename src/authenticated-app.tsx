@@ -4,10 +4,11 @@ import { Row } from 'components/lib';
 import { useAuth } from 'context/auth-context';
 import { ProjectListScreen } from 'screens/project-list';
 import { ReactComponent as Logo } from 'assets/software-logo.svg'; // TODO svg导入
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 
 import { ProjectScreen } from 'screens/project';
 import { BrowserRouter } from 'react-router-dom';
+import { resetRoute } from 'utils';
 
 export const AuthenticatedApp = () => {
   return (
@@ -18,6 +19,7 @@ export const AuthenticatedApp = () => {
           <Routes>
             <Route path={'/projects'} element={<ProjectListScreen />} />
             <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
+            <Route path="/" element={<Navigate to="/projects" replace={true} />} />
           </Routes>
         </BrowserRouter>
       </Main>
@@ -30,7 +32,9 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Logo width="18rem" color="rgb(38,132, 255)" />
+        <Button type="link" onClick={resetRoute}>
+          <Logo width="18rem" color="rgb(38,132, 255)" />
+        </Button>
         <h2>项目</h2>
         <h2>用户</h2>
       </HeaderLeft>

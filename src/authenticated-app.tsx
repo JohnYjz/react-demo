@@ -4,39 +4,54 @@ import { Row } from 'components/lib';
 import { useAuth } from 'context/auth-context';
 import { ProjectListScreen } from 'screens/project-list';
 import { ReactComponent as Logo } from 'assets/software-logo.svg'; // TODO svg导入
+import { Route, Routes } from 'react-router';
+
+import { ProjectScreen } from 'screens/project';
+import { BrowserRouter } from 'react-router-dom';
 
 export const AuthenticatedApp = () => {
-  const { user, logout } = useAuth();
   return (
     <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          <Logo width="18rem" color="rgb(38,132, 255)" />
-          <h2>项目</h2>
-          <h2>用户</h2>
-        </HeaderLeft>
-        <HeaderRgiht>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key="logout">
-                  <Button type="link" onClick={logout}>
-                    登出
-                  </Button>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <Button type="link" onClick={(e) => e.preventDefault()}>
-              Hi, {user?.name}
-            </Button>
-          </Dropdown>
-        </HeaderRgiht>
-      </Header>
+      <PageHeader />
       <Main>
-        <ProjectListScreen />
+        <BrowserRouter>
+          <Routes>
+            <Route path={'/projects'} element={<ProjectListScreen />} />
+            <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
+          </Routes>
+        </BrowserRouter>
       </Main>
     </Container>
+  );
+};
+
+const PageHeader = () => {
+  const { user, logout } = useAuth();
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <Logo width="18rem" color="rgb(38,132, 255)" />
+        <h2>项目</h2>
+        <h2>用户</h2>
+      </HeaderLeft>
+      <HeaderRgiht>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key="logout">
+                <Button type="link" onClick={logout}>
+                  登出
+                </Button>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <Button type="link" onClick={(e) => e.preventDefault()}>
+            Hi, {user?.name}
+          </Button>
+        </Dropdown>
+      </HeaderRgiht>
+    </Header>
   );
 };
 

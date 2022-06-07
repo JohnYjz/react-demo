@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { Typography } from 'antd';
 import { useProjects } from 'utils/project';
 import { useUsers } from 'utils/user';
-import { useUrlQueryParam } from 'utils/url';
+import { useProjectsSearchParams } from './util';
 
 export interface User {
   id: number;
@@ -19,7 +19,7 @@ export interface User {
 export interface Project {
   id: number;
   name: string;
-  personId: number | string;
+  personId: number;
   pin: boolean;
   organization: string;
   created: number;
@@ -27,13 +27,12 @@ export interface Project {
 
 export interface SearchParam {
   name: string;
-  personId: string;
+  personId: number;
 }
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
-  const debounceParam = useDebounce(param, 500);
-  const { isLoading, error, data: list } = useProjects(debounceParam);
+  const [param, setParam] = useProjectsSearchParams();
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 500));
 
   const { data: users } = useUsers();
 

@@ -32,7 +32,7 @@ export interface SearchParam {
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useProjectsSearchParams();
-  const { isLoading, error, data: list } = useProjects(useDebounce(param, 500));
+  const { isLoading, error, data: list, retry } = useProjects(useDebounce(param, 500));
 
   const { data: users } = useUsers();
 
@@ -42,7 +42,7 @@ export const ProjectListScreen = () => {
     <Container>
       <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
       {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-      <List loading={isLoading} dataSource={list || []} users={users || []}></List>
+      <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []}></List>
     </Container>
   );
 };

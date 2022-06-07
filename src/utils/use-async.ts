@@ -22,6 +22,12 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     ...defaultInitialState,
     ...initialState,
   });
+
+  const [retry, setRetry] = useState(() => {
+    // TODO 用useState保存函数必须这样(惰性初始化)
+    return () => {};
+  });
+
   const setData = (data: D) =>
     setState({
       data,
@@ -34,10 +40,19 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
       status: 'error',
       data: null,
     });
-  const run = (promise: Promise<D>) => {
+  const run = (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
     if (!promise || !promise.then) {
       throw new Error('请传入Promise类型数据');
     }
+    setRetry(() => {
+      // TODO 用useState保存函数必须这样(惰性初始化)
+      // TODO 不能直接传入这个promise作为请求方法，因为这个promise已经是执行过的promsie，只包含result
+      return () => {
+        if (runConfig?.retry) {
+          run(runConfig?.retry(), runConfig);
+        }
+      };
+    });
     setState({
       ...state,
       status: 'loading',
@@ -55,6 +70,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         return err;
       });
   };
+
   return {
     isIdle: state.status === 'idle',
     isLoading: state.status === 'loading',
@@ -63,6 +79,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     run,
     setData,
     setError,
+    retry,
     ...state,
   };
 };

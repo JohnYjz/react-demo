@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useMountedRef } from 'utils';
 
 interface State<D> {
   error: Error | null;
@@ -22,6 +23,8 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     ...defaultInitialState,
     ...initialState,
   });
+
+  const mountedRef = useMountedRef();
 
   const [retry, setRetry] = useState(() => {
     // TODO 用useState保存函数必须这样(惰性初始化)
@@ -59,7 +62,10 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     });
     return promise
       .then((data) => {
-        setData(data);
+        if (mountedRef.current) {
+          // 似乎当前版本不用设置这个也不会报错了
+          setData(data);
+        }
         return data;
       })
       .catch((err) => {

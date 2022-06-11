@@ -29,6 +29,11 @@ export const AuthenticatedApp = () => {
 
 const PageHeader = () => {
   const { user, logout } = useAuth();
+  const handlerClick = ({ key }: { key: string }) => {
+    if (key === 'logout') {
+      logout();
+    }
+  };
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
@@ -39,17 +44,7 @@ const PageHeader = () => {
         <h2>用户</h2>
       </HeaderLeft>
       <HeaderRgiht>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="logout">
-                <Button type="link" onClick={logout}>
-                  登出
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-        >
+        <Dropdown overlay={<Menu onClick={handlerClick} items={[{ label: '登出', key: 'logout' }]}></Menu>}>
           <Button type="link" onClick={(e) => e.preventDefault()}>
             Hi, {user?.name}
           </Button>

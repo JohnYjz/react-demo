@@ -2,10 +2,11 @@ import { SearchPanel } from './search-panel';
 import { List } from './list';
 import { useDebounce, useDocumentTitile } from 'utils';
 import styled from '@emotion/styled';
-import { Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { useProjects } from 'utils/project';
 import { useUsers } from 'utils/user';
 import { useProjectsSearchParams } from './util';
+import { Row } from 'components/lib';
 
 export interface User {
   id: number;
@@ -30,7 +31,7 @@ export interface SearchParam {
   personId: number;
 }
 
-export const ProjectListScreen = () => {
+export const ProjectListScreen = ({ setProjectModalOpen }: { setProjectModalOpen: (isOpen: boolean) => void }) => {
   const [param, setParam] = useProjectsSearchParams();
   const { isLoading, error, data: list, retry } = useProjects(useDebounce(param, 500));
 
@@ -40,9 +41,19 @@ export const ProjectListScreen = () => {
 
   return (
     <Container>
+      <Row between={true}>
+        <h1>项目列表</h1>
+        <Button onClick={() => setProjectModalOpen(true)}>创建项目</Button>
+      </Row>
       <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
       {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-      <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []}></List>
+      <List
+        refresh={retry}
+        loading={isLoading}
+        dataSource={list || []}
+        users={users || []}
+        setProjectModalOpen={setProjectModalOpen}
+      ></List>
     </Container>
   );
 };
